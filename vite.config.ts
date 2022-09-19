@@ -1,6 +1,4 @@
 import { ConfigEnv, defineConfig, loadEnv } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import path from 'path'
 
 import { getSrcPath, convertEnv } from './build/utils'
 import { setupVitePlugins } from './build/plugins'
