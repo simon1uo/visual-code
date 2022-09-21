@@ -1,3 +1,39 @@
+<script setup lang="ts">
+import ToolBar from '@/components/ToolBar.vue'
+import SideComponentList from '@/components/SideComponentList.vue'
+import SideRealtimeComponent from '@/components/SideRealtimeComponent.vue'
+import Editor from '@/components/Editor/Editor.vue'
+
+import componentList from '@/custom/config/componentData'
+import { deepCopy } from '@/utils/utils'
+import { useComponentStore } from '@/store/component'
+import { useComposeStore } from '@/store/compose'
+import { generateId } from '@/utils/id'
+
+const composeStore = useComposeStore()
+const componentStore = useComponentStore()
+
+function handleDrop(e: MouseEvent | any) {
+  e.preventDefault()
+  e.stopPropagation()
+
+  const index = e.dataTransfer.getData('index')
+  const rectInfo = composeStore.rectInfo
+  if (index) {
+    const component = deepCopy(componentList[index])
+    component.style.top = e.clientY - rectInfo!.y
+    component.style.left = e.clientX - rectInfo!.x
+    component.id = generateId()
+    componentStore.addComponent(component, index)
+  }
+}
+
+function handleDragover(e: any) {
+  e.preventDefault()
+  e.dataTransfer.dropEffect = 'copy'
+}
+</script>
+
 <template>
   <div class="home">
     <ToolBar />
@@ -8,7 +44,7 @@
       </section>
 
       <section class="center">
-        <div class="content">
+        <div class="content" @drop="handleDrop" @dragover="handleDragover">
           <Editor />
         </div>
       </section>
@@ -23,13 +59,6 @@
     </main>
   </div>
 </template>
-
-<script setup lang="ts">
-import ToolBar from '@/components/ToolBar.vue'
-import SideComponentList from '@/components/SideComponentList.vue'
-import SideRealtimeComponent from '@/components/SideRealtimeComponent.vue'
-import Editor from '@/components/Editor/Editor.vue'
-</script>
 
 <style scoped lang="scss">
 .home {

@@ -5,7 +5,14 @@
 </template>
 
 <script setup lang="ts">
+import { useComposeStore } from '@/store/compose'
 import Grid from './Grid.vue'
+
+const composeStore = useComposeStore()
+
+onMounted(() => {
+  composeStore.getEditor()
+})
 </script>
 
 <style scoped>

@@ -1,26 +1,22 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import ComponentList from '@/custom/config/componentData'
+
+const handleDragStart = (e: any) => {
+  e.dataTransfer.setData('index', e.target.dataset.index)
+}
+</script>
+
 <template>
-  <div class="component-list">
-    <div class="component-item" draggable>
-      <icon-mdi-triangle />
-    </div>
-    <div class="component-item" draggable>
-      <icon-mdi-triangle />
-    </div>
-    <div class="component-item" draggable>
-      <icon-mdi-triangle />
-    </div>
-    <div class="component-item" draggable>
-      <icon-mdi-triangle />
-    </div>
-    <div class="component-item" draggable>
-      <icon-mdi-triangle />
-    </div>
-    <div class="component-item" draggable>
-      <icon-mdi-triangle />
-    </div>
-    <div class="component-item" draggable>
-      <icon-mdi-triangle />
+  <div class="component-list" @dragstart="handleDragStart">
+    <div
+      class="component-item"
+      v-for="(component, index) in ComponentList"
+      :key="index"
+      :data-index="index"
+      draggable="true"
+    >
+      <component :is="component.icon" />
+      <span>{{ component.label }}</span>
     </div>
   </div>
 </template>
@@ -35,10 +31,10 @@
   grid-template-rows: repeat(auto-fill, 40px);
 
   .component-item {
-    width: 80px;
+    width: 82px;
     height: 40px;
     border: 1px solid #ddd;
-    color: #333;
+    color: #303133;
     padding: 10px;
     display: flex;
     align-items: center;
