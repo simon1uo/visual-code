@@ -17,8 +17,13 @@ const srcPath = getSrcPath()
 export default [
   AutoImport({
     imports: ['vue'],
-    resolvers: [ElementPlusResolver(), IconsResolver({})],
-
+    resolvers: [
+      ElementPlusResolver(),
+      IconsResolver({
+        prefix: 'icon',
+        enabledCollections: ['ep', 'mdi'],
+      }),
+    ],
     dts: path.resolve(srcPath, 'auto-imports.d.ts'),
   }),
 
